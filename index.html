@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danzz Store - Solusi Digital Anda</title>
+    
+    <meta name="description" content="Danzz Store menyediakan Panel Pterodactyl, Sewa Bot WhatsApp & Account Games terpercaya.">
+    
+    <style>
+    /* Import Font dari Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Variabel Warna untuk tema modern */
+:root {
+    --primary-color: #6a0dad; /* Ungu Elegan */
+    --secondary-color: #9370db; /* Ungu Muda */
+    --background-color: #121212; /* Latar Belakang Gelap */
+    --surface-color: #1e1e1e; /* Warna permukaan untuk card */
+    --text-color: #e0e0e0; /* Teks putih keabu-abuan */
+    --text-secondary-color: #a0a0a0; /* Teks sekunder */
+    --success-color: #4caf50;
+    --font-family: 'Poppins', sans-serif;
+}
+
+/* Reset CSS dan Pengaturan Dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* ---- Tombol Buka Sidebar (Mobile) ---- */
+.open-sidebar-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001;
+    background: rgba(30, 30, 30, 0.7);
+    backdrop-filter: blur(5px);
+    color: var(--text-color);
+    border: 1px solid var(--surface-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    cursor: pointer;
+    display: none; /* Sembunyikan di desktop */
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.open-sidebar-btn:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* ---- Sidebar ---- */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100vh;
+    background-color: var(--surface-color);
+    border-right: 1px solid #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    transform: translateX(0);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 1000;
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.sidebar-profile {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.sidebar-header h3 {
+    color: white;
+    font-weight: 600;
+}
+
+.close-sidebar-btn {
+    display: none; /* Akan diaktifkan via media query */
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.sidebar-nav a, .sidebar-contact a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--text-secondary-color);
+    text-decoration: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar-nav a:hover, .sidebar-contact a:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.sidebar-nav a i, .sidebar-contact a i {
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-contact {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #2a2a2a;
+}
+
+.sidebar-contact h4 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+}
+
+.sidebar-footer {
+    text-align: center;
+    font-size: 0.8em;
+    color: var(--text-secondary-color);
+    padding-top: 20px;
+    border-top: 1px solid #2a2a2a;
+    margin-top: 20px;
+}
+
+/* ---- Konten Utama ---- */
+.main-content {
+    margin-left: 280px;
+    padding: 0;
+    transition: margin-left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Animasi untuk konten */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+section {
+    padding: 60px 40px;
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 50px;
+    font-weight: 700;
+    color: white;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: var(--primary-color);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+
+/* ---- Hero Section ---- */
+.hero-section {
+    position: relative;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(18, 18, 18, 1) 0%, rgba(18, 18, 18, 0.5) 100%);
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+}
+
+.store-title {
+    font-size: 3.5em;
+    font-weight: 700;
+    color: white;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.store-tagline {
+    font-size: 1.2em;
+    color: var(--text-secondary-color);
+    margin-top: 10px;
+}
+
+/* ---- Product Section ---- */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.product-card {
+    background-color: var(--surface-color);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    border: 1px solid #2a2a2a;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(106, 13, 211, 0.2);
+}
+
+.product-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px auto;
+    object-fit: contain;
+}
+
+.product-title {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.product-description {
+    color: var(--text-secondary-color);
+    font-size: 0.95em;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.product-options {
+    margin-bottom: 20px;
+}
+
+.product-options label {
+    font-size: 0.9em;
+    color: var(--text-secondary-color);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.product-select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #2c2c2c;
+    color: var(--text-color);
+    border: 1px solid #444;
+    font-family: var(--font-family);
+    font-size: 1em;
+    cursor: pointer;
+    appearance: none; /* Hapus tampilan default */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M5%207.5L10%2012.5L15%207.5%22%20stroke%3D%22%23e0e0e0%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 20px;
+}
+
+.product-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.buy-button {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.buy-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(106, 13, 211, 0.4);
+}
+
+/* ---- Info Section ---- */
+.info-section {
+    background-color: var(--surface-color);
+}
+
+.info-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.info-content h3 {
+    color: white;
+    font-size: 1.5em;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.info-content p {
+    color: var(--text-secondary-color);
+}
+
+/* ---- Footer ---- */
+.main-footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary-color);
+    font-size: 0.9em;
+    border-top: 1px solid #2a2a2a;
+}
+
+
+/* ---- Responsif untuk Perangkat Mobile & Tablet ---- */
+@media (max-width: 992px) {
+    .sidebar {
+        transform: translateX(-100%);
+        z-index: 1002;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 10px 0 25px rgba(0,0,0,0.3);
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+
+    .open-sidebar-btn, .close-sidebar-btn {
+        display: flex;
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1001;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s, visibility 0.4s;
+    }
+    
+    .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .store-title {
+        font-size: 2.5em;
+    }
+}
+
+@media (max-width: 768px) {
+    section {
+        padding: 40px 20px;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .store-title {
+        font-size: 2em;
+    }
+
+    .store-tagline {
+        font-size: 1em;
+    }
+    
+    .section-title {
+        font-size: 2em;
+    }
+}
+</style>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <link rel="icon" href="profil-store.jpg" type="image/x-icon">
+</head>
+<body>
+
+    <button class="open-sidebar-btn" id="open-sidebar-btn">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="images/profil-store.jpg" alt="Profile Danzz Store" class="sidebar-profile">
+            <h3>Danzz Store</h3>
+            <button class="close-sidebar-btn" id="close-sidebar-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#home"><i class="fas fa-home"></i> Beranda</a>
+            <a href="#products"><i class="fas fa-box-open"></i> Produk Kami</a>
+            <a href="#info"><i class="fas fa-info-circle"></i> Informasi</a>
+            <a href="#payment"><i class=" fas fa-regular fa-cart-shopping"></i> Payment</a>
+        </nav>
+        <div class="sidebar-contact">
+            <h4>Hubungi Kami</h4>
+            <a href="https://instagram.com/m.dnii" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="https://t.me/rvnkyu" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+            <a href="https://wa.me/6289529737500" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            <a href="https://whatsapp.com/channel/0029Vb4fsMn65yDD3kXQ6p1C" target="_blank"><i class="fa-brands fa-whatsapp"></i> Channel WA</a>
+            <a href="https://lit.link/mdnii" target="_blank"><i class="fa-regular fa-circle-user"></i> Website Danzz</a>
+        </div>
+        <div class="sidebar-footer">
+            <p>&copy; 2025 Danzz Store</p>
+        </div>
+    </aside>
+
+    <main class="main-content" id="main-content">
+        <section id="home" class="hero-section">
+            <div class="hero-overlay"></div>
+            <img src="images/thumbnail-store.jpg" alt="Thumbnail Danzz Store" class="hero-bg">
+            <div class="hero-content">
+                <h1 class="store-title">Selamat Datang di Danzz Store</h1>
+                <p class="store-tagline">Pusat Kebutuhan Digital Terlengkap dan Terpercaya</p>
+            </div>
+        </section>
+
+        <section id="products" class="product-section">
+            <h2 class="section-title">Produk Kami</h2>
+            <div class="product-grid">
+
+                <div class="product-card">
+                    <img src="images/icon-ptero.png" alt="Panel Pterodactyl" class="product-icon">
+                    <h3 class="product-title">Panel Pterodactyl</h3>
+                    <p class="product-description">Hosting panel untuk bot WhatsApp dengan performa tinggi dan stabil.</p>
+                    <div class="product-options">
+                        <label for="pterodactyl-select">Pilih Paket:</label>
+                        <select id="pterodactyl-select" class="product-select">
+                            <option value="Paket 1GB">RAM 1GB/CPU 40% - Rp 1.000</option>
+                            <option value="Paket 2GB">RAM 2GB/CPU 60% - Rp 2.000</option>
+                            <option value="Paket 3GB">RAM 3GB/CPU 80% - Rp 3.000</option>
+                            <option value="Paket 4GB">RAM 4GB/CPU 100% - Rp 4.000</option>
+                            <option value="Paket 5GB">RAM 5GB/CPU 120% - Rp 5.000</option>
+                            <option value="Paket 6GB">RAM 6GB/CPU 140% - Rp 6.000</option>
+                            <option value="Paket 7GB">RAM 7GB/CPU 160% - Rp 7.000</option>
+                            <option value="Paket 8GB">RAM 8GB/CPU 180% - Rp 8.000</option>
+                            <option value="Paket 9GB">RAM 9GB/CPU 200% - Rp 9.000</option>
+                            <option value="Paket 10GB">RAM 10GB/CPU 220% - Rp 10.000</option>
+                            <option value="Paket Unli">RAM UNLI/CPU UNLI - Rp 15.000</option>
+                        </select>
+                    </div>
+                    <button class="buy-button">
+                        <i class="fab fa-whatsapp"></i> Beli Sekarang
+                    </button>
+                </div>
+
+                <div class="product-card">
+                    <img src="images/icon-sewa.png" alt="Sewa Bot" class="product-icon">
+                    <h3 class="product-title">Sewa Bot</h3>
+                    <p class="product-description">Berbagai macam fitur bot siap pakai untuk berbagai kebutuhan Anda.</p>
+                     <div class="product-options">
+                        <label for="sewabot-select">Pilih Waktu Sewa:</label>
+                        <select id="sewabot-select" class="product-select">
+                            <option value="Sewa 1Minggu">1 Minggu - Rp 5.000</option>
+                            <option value="Sewa 2Minggu">2 Minggu - Rp 10.000</option>
+                            <option value="Sewa 1Bulan">1 Bulan - Rp 15.000
+                      </option>
+                            <option value="Sewa Permanent">Permanent - Rp 40.000</option>
+                        </select>
+                    </div>
+                    <button class="buy-button">
+                        <i class="fab fa-whatsapp"></i> Beli Sekarang
+                    </button>
+                </div>
+                
+
+            </div>
+        </section>
+        
+        <section id="info" class="info-section">
+            <h2 class="section-title">Informasi Store</h2>
+            <div class="info-content">
+                <h3>Tentang Danzz Store</h3>
+                <p>Danzz Store adalah platform terdepan yang menyediakan berbagai macam kebutuhan digital Anda. Didirikan pada tahun 2025, kami berkomitmen untuk memberikan layanan terbaik, produk berkualitas, dan harga yang kompetitif. Keamanan transaksi dan kepuasan pelanggan adalah prioritas utama kami.</p>
+                <h3>Jam Operasional</h3>
+                <p><strong>Senin-Jumat:</strong> 18:00 WIB - 23:00 WIB</p>
+                <p><strong>Sabtu-Minggu:</strong> 08:00 WIB - 23:00 WIB</p>
+                <p><em>(Pesanan di luar jam operasional akan diproses pada jam berikutnya)</em></p>
+            </div>
+        </section>
+        
+        <section id="payment" class="pay-section">
+          <h2 class="section-title">List Pembayaran</h2>
+          <div class="info-content">
+               <p>Berikut List Pembayaran Yang Tersedia:</p>
+               <p><i class="fa-regular fa-credit-card"></i> Dana : <u><strong>089529737500</strong></u><br><i class="fa-regular fa-credit-card"></i> Gopay : <u><strong>083138355050</strong></u><br>Qriss : <a href="https://files.catbox.moe/xk8e6a.jpg"><button>Klik Disini</button></a></p>
+
+          </div>
+        </section>
+
+        <footer class="main-footer">
+             <p>&copy; 2025 Danzz Store. Dibuat dengan ❤️.</p>
+        </footer>
+    </main>
+    
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <script> document.addEventListener('DOMContentLoaded', () => {
+
+    // --- PENGATURAN DASAR ---
+    const WHATSAPP_NUMBER = '6289529737500'; // Ganti dengan nomor WhatsApp Anda
+
+    // --- LOGIKA SIDEBAR ---
+    const sidebar = document.getElementById('sidebar');
+    const openBtn = document.getElementById('open-sidebar-btn');
+    const closeBtn = document.getElementById('close-sidebar-btn');
+    const overlay = document.getElementById('sidebar-overlay');
+    const mainContent = document.getElementById('main-content');
+
+    function openSidebar() {
+        sidebar.classList.add('open');
+        overlay.classList.add('active');
+    }
+
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+    }
+
+    openBtn.addEventListener('click', openSidebar);
+    closeBtn.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
+    
+    // --- LOGIKA TOMBOL BELI VIA WHATSAPP ---
+    const buyButtons = document.querySelectorAll('.buy-button');
+
+    buyButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            // Temukan 'product-card' terdekat dari tombol yang diklik
+            const card = event.target.closest('.product-card');
+
+            // Ambil judul produk dari dalam card
+            const productTitle = card.querySelector('.product-title').innerText;
+            
+            // Ambil pilihan dari dropdown di dalam card
+            const productSelect = card.querySelector('.product-select');
+            const selectedOption = productSelect.options[productSelect.selectedIndex].text;
+
+            // Buat template pesan WhatsApp
+            const message = `Halo Danzz Store,
+
+Saya tertarik untuk membeli produk berikut:
+- *Produk:* ${productTitle}
+- *Pilihan:* ${selectedOption}
+
+Mohon informasinya untuk langkah selanjutnya. Terima kasih.`;
+
+            // Encode pesan agar sesuai format URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Buat URL lengkap ke WhatsApp
+            const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+            
+            // Buka URL di tab baru
+            window.open(whatsappURL, '_blank');
+        });
+    });
+    
+    // Tambahkan animasi fade-in pada elemen saat di-scroll
+    const animatedElements = document.querySelectorAll('section, .product-card, .info-content');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animation = `fadeIn 1s ease-out forwards`;
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    animatedElements.forEach(el => {
+        el.style.opacity = '0'; // Sembunyikan elemen awalnya
+        observer.observe(el);
+    });
+});
+</script>
+</body>
+</html>
